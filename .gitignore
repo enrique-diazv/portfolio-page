@@ -24,3 +24,7 @@ pnpm-debug.log*
 .idea/
 
 .vercel
+
+# Local AI instructions
+CLAUDE.md
+AGENTS.md
