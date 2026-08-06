@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+	title="Proyectos | Enrique Díaz Vera"
+	description="Proyectos de desarrollo de software realizados por Enrique Díaz Vera."
+>
+	<main class="projects-page">
+		<nav class="main-nav" aria-label="Navegación principal">
+			<a class="main-nav__link" href="/">Home</a>
+
+			<a
+				class="main-nav__link main-nav__link--active"
+				href="/projects"
+				aria-current="page"
+			>
+				Projects
+			</a>
+		</nav>
+
+		<section class="projects-grid" aria-labelledby="projects-title">
+			<h1 id="projects-title" class="sr-only">Mis proyectos</h1>
+
+			<a
+				class="project-card"
+				href="/projects/watch-later-universal"
+			>
+				<span class="folder-icon" aria-hidden="true"></span>
+
+				<h2>
+					<span aria-hidden="true">&gt;</span>
+					Watch Later Universal
+				</h2>
+
+				<p>
+					Aplicación full stack para descubrir películas y series,
+					consultar sus detalles y guardarlas en una biblioteca personal.
+				</p>
+
+				<span class="project-card__link">Ver proyecto →</span>
+			</a>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.projects-page {
+		width: 100%;
+		min-height: 100svh;
+		padding: clamp(1rem, 2.5vw, 2.5rem);
+		background: var(--color-dark);
+		color: var(--color-white);
+	}
+
+	.main-nav {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(2rem, 7vw, 6rem);
+		width: min(100%, 96rem);
+		min-height: clamp(3.2rem, 4vw, 3.75rem);
+		margin-inline: auto;
+		padding: 0.35rem 1rem;
+		border-radius: 999px;
+		background: var(--color-green);
+	}
+
+	.main-nav__link {
+		padding: 0.18em 0.55em;
+		border-radius: 0.6em;
+		color: var(--color-white);
+		font-size: clamp(1.2rem, calc(1rem + 0.6vw), 1.75rem);
+		line-height: 1;
+		text-decoration: none;
+	}
+
+	.main-nav__link--active {
+		background: var(--color-dark);
+		color: var(--color-orange);
+	}
+
+	.projects-grid {
+		display: grid;
+		grid-template-columns: repeat(
+			auto-fit,
+			minmax(min(100%, 17rem), 1fr)
+		);
+		gap: clamp(3rem, 7vw, 6rem);
+		width: min(100%, 87rem);
+		margin: clamp(4rem, 8vw, 7rem) auto 0;
+	}
+
+	.project-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-width: 0;
+		padding: 1.5rem;
+		color: var(--color-white);
+		text-align: center;
+		text-decoration: none;
+	}
+
+	.folder-icon {
+		position: relative;
+		width: 6rem;
+		height: 4rem;
+		margin: 1.5rem 0 2rem;
+		border: 0.45rem solid var(--color-orange);
+		border-radius: 0.2rem 0.5rem 0.5rem;
+		transform: skew(-8deg);
+	}
+
+	.folder-icon::before {
+		content: "";
+		position: absolute;
+		top: -1.55rem;
+		left: -0.45rem;
+		width: 2.8rem;
+		height: 1.3rem;
+		border: 0.45rem solid var(--color-orange);
+		border-bottom: 0;
+		border-radius: 0.35rem 0.35rem 0 0;
+	}
+
+	.project-card h2 {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.6rem;
+		margin: 0;
+		color: var(--color-white);
+		font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+		line-height: 1.5;
+	}
+
+	.project-card h2 span {
+		color: var(--color-orange);
+	}
+
+	.project-card p {
+		max-width: 28rem;
+		margin: 1rem 0 0;
+		font-size: clamp(0.7rem, 0.85vw, 0.85rem);
+		line-height: 1.7;
+	}
+
+	.project-card__link {
+		margin-top: 1rem;
+		color: var(--color-blue);
+		font-size: clamp(0.7rem, 0.85vw, 0.85rem);
+	}
+
+	.project-card:hover .folder-icon {
+		transform: translateY(-0.5rem) skew(-8deg);
+	}
+
+	.project-card:hover .project-card__link {
+		color: var(--color-orange);
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	@media (max-width: 45rem) {
+		.projects-page {
+			padding: 1.25rem;
+		}
+
+		.main-nav {
+			gap: 1.25rem;
+		}
+
+		.projects-grid {
+			margin-top: 3rem;
+		}
+	}
+</style>

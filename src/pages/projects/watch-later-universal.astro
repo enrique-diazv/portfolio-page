@@ -1,0 +1,592 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const features = [
+    "Búsqueda paginada de películas y series mediante TMDB.",
+    "Fichas con sinopsis, calificación, fecha, póster y plataformas disponibles.",
+    "Registro, verificación de correo, inicio y cierre de sesión.",
+    "Recuperación segura de contraseña.",
+    "Biblioteca personal persistente en PostgreSQL.",
+    "Estados: por ver, viendo, completado, pausado y abandonado.",
+    "Favoritos y calificación en incrementos de media estrella.",
+    "Filtros, ordenamiento y paginación de la biblioteca.",
+    "Diseño responsive para escritorio y dispositivos móviles.",
+];
+
+const scalability = [
+    {
+        title: "API sin estado local",
+        description:
+            "FastAPI no depende de sesiones almacenadas en memoria. Esto permite ejecutar varias instancias del backend y distribuir las solicitudes entre ellas.",
+    },
+    {
+        title: "Infraestructura administrada",
+        description:
+            "Vercel puede adaptar la capacidad del frontend y la API según la demanda, mientras Neon administra PostgreSQL.",
+    },
+    {
+        title: "Separación por capas",
+        description:
+            "Frontend, API, persistencia e integraciones externas están desacoplados, por lo que pueden evolucionar independientemente.",
+    },
+    {
+        title: "Modelo de datos sin duplicación",
+        description:
+            "La información de cada película o serie se almacena una sola vez. La biblioteca conserva únicamente la relación y las preferencias de cada usuario.",
+    },
+    {
+        title: "Índices de base de datos",
+        description:
+            "PostgreSQL incluye índices compuestos por usuario, estado y fecha de actualización para acelerar las consultas más frecuentes.",
+    },
+    {
+        title: "Paginación",
+        description:
+            "La búsqueda y la biblioteca limitan la cantidad de registros procesados y enviados en cada petición.",
+    },
+    {
+        title: "Caché inteligente",
+        description:
+            "TanStack Query reutiliza respuestas y actualiza únicamente los datos que cambian, reduciendo solicitudes redundantes.",
+    },
+    {
+        title: "Búsqueda con debounce",
+        description:
+            "La interfaz espera 400 ms mientras el usuario escribe, evitando ejecutar una consulta por cada pulsación.",
+    },
+    {
+        title: "Integraciones asíncronas",
+        description:
+            "FastAPI y HTTPX pueden esperar las respuestas de TMDB sin bloquear innecesariamente el servidor.",
+    },
+    {
+        title: "Reutilización de conexiones",
+        description:
+            "SQLAlchemy mantiene un motor compartido y administra el pool de conexiones a PostgreSQL con validación previa.",
+    },
+];
+
+const technologies = [
+    {
+        title: "Frontend",
+        items: [
+            "React 19",
+            "TypeScript",
+            "Vite 8",
+            "React Router",
+            "TanStack Query",
+            "CSS Modules",
+            "Vitest",
+            "Testing Library",
+        ],
+    },
+    {
+        title: "Backend",
+        items: [
+            "Python 3.13",
+            "FastAPI",
+            "SQLAlchemy 2",
+            "Alembic",
+            "PostgreSQL",
+            "Pydantic",
+            "Argon2",
+            "JWT",
+            "Pytest",
+        ],
+    },
+    {
+        title: "Infraestructura",
+        items: ["Vercel", "Neon", "TMDB", "Brevo"],
+    },
+];
+
+const security = [
+    "Contraseñas protegidas con Argon2.",
+    "Refresh tokens almacenados como hashes y rotados en cada renovación.",
+    "Cookies HttpOnly, Secure y con SameSite configurable.",
+    "Tokens de verificación y recuperación con expiración y uso único.",
+    "Validación de entrada mediante Pydantic.",
+    "Variables sensibles almacenadas fuera de Git.",
+];
+---
+
+<BaseLayout
+    title="Watch Later Universal | Enrique Díaz Vera"
+    description="Aplicación full stack para descubrir películas y series y organizar una biblioteca personal."
+>
+    <main class="project-page">
+        <nav class="main-nav" aria-label="Navegación principal">
+            <a class="main-nav__link" href="/">Home</a>
+
+            <a class="main-nav__link main-nav__link--active" href="/projects">
+                Projects
+            </a>
+        </nav>
+
+        <article class="project">
+            <header class="project-hero">
+                <div class="project-hero__content">
+                    <p class="project-hero__label">Proyecto full stack</p>
+
+                    <h1>Watch Later Universal</h1>
+
+                    <p class="project-hero__description">
+                        Aplicación web para descubrir películas y series,
+                        consultar dónde están disponibles y organizar una
+                        biblioteca personal.
+                    </p>
+
+                    <p class="project-hero__author">
+                        Diseñado y desarrollado completamente por Enrique Díaz
+                        Vera.
+                    </p>
+
+                    <div class="project-links">
+                        <a
+                            href="https://watch-later-universal-six.vercel.app/"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            Ver aplicación
+                        </a>
+
+                        <a
+                            href="https://github.com/enrique-diazv/watch-later-universal"
+                            target="_blank"
+                            rel="noreferrer"
+                        >
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <div class="project-gallery">
+                    <figure>
+                        <img
+                            src="/images/watch-later/search.png"
+                            alt="Buscador de Watch Later Universal"
+                        />
+                        <figcaption>Búsqueda de contenido</figcaption>
+                    </figure>
+
+                    <figure>
+                        <img
+                            src="/images/watch-later/authentication.png"
+                            alt="Pantalla de autenticación de Watch Later Universal"
+                            loading="lazy"
+                        />
+                        <figcaption>Autenticación de usuarios</figcaption>
+                    </figure>
+
+                    <figure>
+                        <img
+                            src="/images/watch-later/details.png"
+                            alt="Ficha de la película Matrix"
+                            loading="lazy"
+                        />
+                        <figcaption>
+                            Detalles y plataformas disponibles
+                        </figcaption>
+                    </figure>
+                </div>
+            </header>
+
+            <section class="project-section">
+                <h2>Funciones</h2>
+
+                <ul class="feature-list">
+                    {features.map((feature) => <li>{feature}</li>)}
+                </ul>
+            </section>
+
+            <section class="project-section">
+                <h2>Escalabilidad y eficiencia</h2>
+
+                <p class="project-section__introduction">
+                    Watch Later Universal está preparado para crecer sin
+                    requerir una reescritura completa:
+                </p>
+
+                <ul class="feature-list feature-list--detailed">
+                    {
+                        scalability.map((item) => (
+                            <li>
+                                <strong>{item.title}:</strong>{" "}
+                                {item.description}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <section class="project-section">
+                <h2>Tecnologías</h2>
+
+                <div class="technology-grid">
+                    {
+                        technologies.map((group) => (
+                            <section class="technology-group">
+                                <h3>{group.title}</h3>
+
+                                <ul>
+                                    {group.items.map((item) => (
+                                        <li>{item}</li>
+                                    ))}
+                                </ul>
+                            </section>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <section class="project-section">
+                <h2>Arquitectura</h2>
+
+                <div
+                    class="architecture-flow"
+                    aria-label="Arquitectura de Watch Later Universal"
+                >
+                    <span>Navegador</span>
+                    <b aria-hidden="true">→</b>
+                    <span>React + Vite</span>
+                    <b aria-hidden="true">→</b>
+                    <span>FastAPI</span>
+                    <b aria-hidden="true">→</b>
+                    <span>PostgreSQL</span>
+                </div>
+
+                <div class="external-services">
+                    <span>TMDB: catálogo</span>
+                    <span>Brevo: correo</span>
+                    <span>Neon: base de datos</span>
+                    <span>Vercel: despliegue</span>
+                </div>
+            </section>
+
+            <section class="project-section">
+                <h2>Seguridad</h2>
+
+                <ul class="feature-list">
+                    {security.map((item) => <li>{item}</li>)}
+                </ul>
+            </section>
+
+            <a class="back-link" href="/projects"> ← Volver a proyectos </a>
+        </article>
+    </main>
+</BaseLayout>
+
+<style>
+    .project-page {
+        width: 100%;
+        min-height: 100svh;
+        padding: clamp(1rem, 2.5vw, 2.5rem);
+        background: var(--color-dark);
+        color: var(--color-white);
+    }
+
+    .main-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(2rem, 7vw, 6rem);
+        width: min(100%, 96rem);
+        min-height: clamp(3.2rem, 4vw, 3.75rem);
+        margin-inline: auto;
+        padding: 0.35rem 1rem;
+        border-radius: 999px;
+        background: var(--color-green);
+    }
+
+    .main-nav__link {
+        padding: 0.18em 0.55em;
+        border-radius: 0.6em;
+        color: var(--color-white);
+        font-size: clamp(1.2rem, calc(1rem + 0.6vw), 1.75rem);
+        line-height: 1;
+        text-decoration: none;
+    }
+
+    .main-nav__link--active {
+        background: var(--color-dark);
+        color: var(--color-orange);
+    }
+
+    .project {
+        width: min(100%, 87rem);
+        margin: clamp(3rem, 7vw, 6rem) auto 0;
+    }
+
+    .project-hero {
+        display: grid;
+        grid-template-columns:
+            minmax(20rem, 0.9fr)
+            minmax(0, 1.35fr);
+        align-items: start;
+        gap: clamp(4rem, 6vw, 7rem);
+    }
+
+    .project-hero__label {
+        width: fit-content;
+        margin: 0 0 1.5rem;
+        padding: 0.45em 0.75em;
+        border-radius: 20px;
+        background: var(--color-red);
+        color: var(--color-white);
+        font-size: 0.75rem;
+    }
+
+    .project-hero h1 {
+        margin: 0;
+        color: var(--color-orange);
+        font-size: clamp(2rem, 4vw, 4rem);
+        line-height: 1.15;
+    }
+
+    .project-hero__description {
+        margin: 2rem 0 0;
+        padding: 0.8rem 1rem;
+        border-radius: 20px;
+        background: var(--color-green);
+        color: var(--color-dark);
+        font-size: clamp(0.75rem, 1vw, 0.95rem);
+        line-height: 1.8;
+        text-align: justify;
+    }
+
+    .project-hero__author {
+        margin: 1.25rem 0 0;
+        font-size: clamp(0.7rem, 0.9vw, 0.85rem);
+        line-height: 1.7;
+    }
+
+    .project-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .project-links a,
+    .back-link {
+        padding: 0.7rem 1rem;
+        border-radius: 20px;
+        background: var(--color-orange);
+        color: var(--color-dark);
+        font-size: 0.75rem;
+        text-decoration: none;
+    }
+
+    .project-links a:hover,
+    .back-link:hover {
+        background: var(--color-green);
+    }
+
+    .project-gallery {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        width: min(100%, 40rem);
+        justify-self: end;
+    }
+
+    .project-gallery figure {
+        margin: 0;
+        padding: 0.65rem;
+        border: 3px solid var(--color-green);
+        border-radius: 20px;
+        background: #121820;
+    }
+
+    .project-gallery figure:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .project-gallery img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+    }
+
+    .project-gallery figcaption {
+        margin-top: 0.75rem;
+        color: var(--color-blue);
+        font-size: 0.65rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .project-section {
+        margin-top: clamp(4rem, 8vw, 7rem);
+    }
+
+    .project-section > h2 {
+        width: fit-content;
+        margin: 0 0 2rem;
+        padding: 0.25em 0.6em;
+        border-radius: 20px;
+        background: var(--color-orange);
+        color: var(--color-white);
+        font-size: clamp(1.3rem, 2vw, 2rem);
+        font-weight: 500;
+        line-height: 1.2;
+    }
+
+    .feature-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+        max-width: 70rem;
+        margin: 0;
+        padding-left: 1.5rem;
+        list-style: square;
+    }
+
+    .feature-list li {
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+        color: var(--color-white);
+        font-size: clamp(0.68rem, 0.85vw, 0.85rem);
+        line-height: 1.6;
+    }
+
+    .feature-list li::marker {
+        color: var(--color-white);
+    }
+
+    .project-section__introduction {
+        max-width: 70rem;
+        margin: 0 0 1.75rem;
+        color: var(--color-white);
+        font-size: clamp(0.72rem, 0.9vw, 0.9rem);
+        line-height: 1.8;
+    }
+
+    .feature-list--detailed {
+        gap: 1rem;
+    }
+
+    .feature-list--detailed li {
+        line-height: 1.8;
+    }
+
+    .feature-list--detailed strong {
+        color: var(--color-orange);
+        font-weight: 700;
+    }
+
+    .technology-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    .technology-group h3 {
+        width: fit-content;
+        margin: 0 0 1rem;
+        color: var(--color-orange);
+        font-size: clamp(0.85rem, 1vw, 1rem);
+    }
+
+    .technology-group ul {
+        display: grid;
+        gap: 0.7rem;
+        margin: 0;
+        padding-left: 1.5rem;
+        list-style: square;
+    }
+
+    .technology-group li {
+        padding: 0;
+        background: transparent;
+        color: var(--color-white);
+        font-size: 0.72rem;
+        line-height: 1.5;
+    }
+
+    .technology-group li::marker {
+        color: var(--color-white);
+    }
+
+    .architecture-flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .architecture-flow span,
+    .external-services span {
+        padding: 0.8rem 1rem;
+        border-radius: 20px;
+        background: var(--color-green);
+        color: var(--color-dark);
+        font-size: 0.75rem;
+        text-align: center;
+    }
+
+    .architecture-flow b {
+        color: var(--color-orange);
+        font-size: 1.5rem;
+    }
+
+    .external-services {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 2rem;
+    }
+
+    .external-services span {
+        background: var(--color-blue);
+    }
+
+    .back-link {
+        display: block;
+        width: fit-content;
+        margin: clamp(4rem, 8vw, 7rem) 0 2rem;
+    }
+
+    @media (max-width: 70rem) {
+        .project-hero {
+            grid-template-columns: 1fr;
+        }
+
+        .technology-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+    .project-gallery {
+        justify-self: center;
+    }
+    @media (max-width: 45rem) {
+        .project-page {
+            padding: 1.25rem;
+        }
+
+        .main-nav {
+            gap: 1.25rem;
+        }
+
+        .project-gallery,
+        .feature-list,
+        .technology-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .project-gallery figure:first-child {
+            grid-column: auto;
+        }
+
+        .architecture-flow {
+            flex-direction: column;
+        }
+
+        .architecture-flow b {
+            transform: rotate(90deg);
+        }
+    }
+</style>
