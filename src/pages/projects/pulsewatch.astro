@@ -3,67 +3,67 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import MainNav from "../../components/MainNav.astro";
 
 const features = [
-    "Búsqueda paginada de películas y series mediante TMDB.",
-    "Fichas con sinopsis, calificación, fecha, póster y plataformas disponibles.",
-    "Registro, verificación de correo, inicio y cierre de sesión.",
-    "Recuperación segura de contraseña.",
-    "Biblioteca personal persistente en PostgreSQL.",
-    "Estados: por ver, viendo, completado, pausado y abandonado.",
-    "Favoritos y calificación en incrementos de media estrella.",
-    "Filtros, ordenamiento y paginación de la biblioteca.",
-    "Diseño responsive para escritorio y dispositivos móviles.",
+    "Autenticación con correo y contraseña, access tokens y refresh tokens rotatorios.",
+    "Creación, edición y eliminación de monitores HTTP configurables.",
+    "Comprobaciones manuales y programadas mediante Celery y Redis.",
+    "Intervalos, timeouts, métodos HTTP y códigos de respuesta configurables.",
+    "Detección automática de fallos, recuperaciones e incidentes.",
+    "Notificaciones con seguimiento de reintentos y envío mediante log o SMTP.",
+    "Dashboard actualizado en tiempo real mediante WebSockets autenticados.",
+    "Historial paginado, gráficas de latencia y métricas agregadas.",
+    "Interfaz responsive para monitores, incidentes, métricas y cuenta.",
 ];
 
 const scalability = [
     {
-        title: "API sin estado local",
+        title: "Procesamiento en segundo plano",
         description:
-            "FastAPI no depende de sesiones almacenadas en memoria. Esto permite ejecutar varias instancias del backend y distribuir las solicitudes entre ellas.",
+            "Celery ejecuta las comprobaciones programadas fuera del ciclo de petición de la API, evitando bloquear las solicitudes de los usuarios.",
     },
     {
-        title: "Infraestructura administrada",
+        title: "Estado distribuido con Redis",
         description:
-            "Vercel puede adaptar la capacidad del frontend y la API según la demanda, mientras Neon administra PostgreSQL.",
+            "Redis funciona como broker, caché, Pub/Sub y almacenamiento temporal para límites de tasa y bloqueos distribuidos.",
     },
     {
-        title: "Separación por capas",
+        title: "Actualizaciones en tiempo real",
         description:
-            "Frontend, API, persistencia e integraciones externas están desacoplados, por lo que pueden evolucionar independientemente.",
+            "El dashboard recibe cambios mediante WebSockets autenticados sin realizar consultas constantes al servidor.",
     },
     {
-        title: "Modelo de datos sin duplicación",
+        title: "Historial paginado por cursor",
         description:
-            "La información de cada película o serie se almacena una sola vez. La biblioteca conserva únicamente la relación y las preferencias de cada usuario.",
+            "Los registros de comprobaciones se consultan en bloques estables y eficientes, incluso cuando el historial continúa creciendo.",
     },
     {
-        title: "Índices de base de datos",
+        title: "Resúmenes en caché",
         description:
-            "PostgreSQL incluye índices compuestos por usuario, estado y fecha de actualización para acelerar las consultas más frecuentes.",
+            "Las métricas del dashboard se reutilizan desde caché para reducir consultas repetitivas a PostgreSQL.",
     },
     {
-        title: "Paginación",
+        title: "Retención de datos",
         description:
-            "La búsqueda y la biblioteca limitan la cantidad de registros procesados y enviados en cada petición.",
+            "Las tareas programadas eliminan registros antiguos y ayudan a controlar el crecimiento de la base de datos.",
     },
     {
-        title: "Caché inteligente",
+        title: "Arquitectura desacoplada",
         description:
-            "TanStack Query reutiliza respuestas y actualiza únicamente los datos que cambian, reduciendo solicitudes redundantes.",
+            "Frontend, API, PostgreSQL, Redis, workers y scheduler pueden escalar y desplegarse de forma independiente.",
     },
     {
-        title: "Búsqueda con debounce",
+        title: "Calidad automatizada",
         description:
-            "La interfaz espera 400 ms mientras el usuario escribe, evitando ejecutar una consulta por cada pulsación.",
+            "GitHub Actions valida lint, formato, pruebas, cobertura, builds, contenedores y flujos end-to-end.",
     },
     {
-        title: "Integraciones asíncronas",
+        title: "Cobertura del backend",
         description:
-            "FastAPI y HTTPX pueden esperar las respuestas de TMDB sin bloquear innecesariamente el servidor.",
+            "El proyecto exige una cobertura mínima del 90% para las pruebas automatizadas del backend.",
     },
     {
-        title: "Reutilización de conexiones",
+        title: "Pruebas de rendimiento",
         description:
-            "SQLAlchemy mantiene un motor compartido y administra el pool de conexiones a PostgreSQL con validación previa.",
+            "Las mediciones locales con k6 alcanzaron un p95 global de 86.39 ms y menos de 15 ms p95 en los endpoints de lectura evaluados.",
     },
 ];
 
@@ -73,47 +73,64 @@ const technologies = [
         items: [
             "React 19",
             "TypeScript",
-            "Vite 8",
+            "Vite",
             "React Router",
             "TanStack Query",
-            "CSS Modules",
-            "Vitest",
-            "Testing Library",
+            "React Hook Form",
+            "Zod",
+            "Recharts",
         ],
     },
     {
-        title: "Backend",
+        title: "Backend y datos",
         items: [
             "Python 3.13",
             "FastAPI",
+            "Pydantic",
             "SQLAlchemy 2",
             "Alembic",
+            "HTTPX",
             "PostgreSQL",
-            "Pydantic",
-            "Argon2",
-            "JWT",
-            "Pytest",
+            "Redis",
+            "Celery",
+            "Celery Beat",
         ],
     },
     {
-        title: "Infraestructura",
-        items: ["Vercel", "Neon", "TMDB", "Brevo"],
+        title: "Calidad e infraestructura",
+        items: [
+            "Pytest",
+            "Vitest",
+            "Testing Library",
+            "Playwright",
+            "k6",
+            "Ruff",
+            "Oxlint",
+            "GitHub Actions",
+            "Docker",
+            "Nginx",
+            "Vercel",
+            "Render",
+            "Neon",
+        ],
     },
 ];
 
 const security = [
-    "Contraseñas protegidas con Argon2.",
-    "Refresh tokens almacenados como hashes y rotados en cada renovación.",
-    "Cookies HttpOnly, Secure y con SameSite configurable.",
-    "Tokens de verificación y recuperación con expiración y uso único.",
-    "Validación de entrada mediante Pydantic.",
-    "Variables sensibles almacenadas fuera de Git.",
+    "Contraseñas protegidas mediante Argon2.",
+    "Access tokens JWT de corta duración y refresh tokens rotatorios.",
+    "Cookies seguras HTTP-only para proteger las sesiones.",
+    "Protección SSRF después de la resolución DNS.",
+    "Bloqueo de destinos privados, locales, link-local y multicast.",
+    "Tickets WebSocket autenticados y de un solo uso.",
+    "Límites de tasa y bloqueos distribuidos mediante Redis.",
+    "Validación de entrada mediante Pydantic y Zod.",
 ];
 ---
 
 <BaseLayout
-    title="Watch Later Universal | Enrique Díaz Vera"
-    description="Aplicación full stack para descubrir películas y series y organizar una biblioteca personal."
+    title="PulseWatch | Enrique Díaz Vera"
+    description="Plataforma full stack para monitorear sitios web y APIs HTTP, detectar incidentes y visualizar disponibilidad y latencia."
 >
     <main class="project-page">
         <MainNav active="projects" />
@@ -123,12 +140,13 @@ const security = [
                 <div class="project-hero__content">
                     <p class="project-hero__label">Proyecto full stack</p>
 
-                    <h1>Watch Later Universal</h1>
+                    <h1>Pulse<br />Watch</h1>
 
                     <p class="project-hero__description">
-                        Aplicación web para descubrir películas y series,
-                        consultar dónde están disponibles y organizar una
-                        biblioteca personal.
+                        Plataforma de monitoreo para sitios web y APIs HTTP.
+                        Ejecuta comprobaciones programadas, registra
+                        disponibilidad y latencia, detecta incidentes y
+                        actualiza su dashboard en tiempo real.
                     </p>
 
                     <p class="project-hero__author">
@@ -138,7 +156,7 @@ const security = [
 
                     <div class="project-links">
                         <a
-                            href="https://watch-later-universal-six.vercel.app/"
+                            href="https://pulsewatch-steel.vercel.app/"
                             target="_blank"
                             rel="noreferrer"
                         >
@@ -146,49 +164,51 @@ const security = [
                         </a>
 
                         <a
-                            href="https://github.com/enrique-diazv/watch-later-universal"
+                            href="https://github.com/enrique-diazv/pulsewatch"
                             target="_blank"
                             rel="noreferrer"
                         >
                             GitHub
                         </a>
                     </div>
+
                     <ul
                         class="project-stack"
                         aria-label="Tecnologías principales"
                     >
                         <li>React</li>
                         <li>FastAPI</li>
-                        <li>PostgreSQL</li>
+                        <li>Redis</li>
+                        <li>Celery</li>
                     </ul>
                 </div>
 
                 <div class="project-gallery">
                     <figure>
                         <img
-                            src="/images/watch-later/search.png"
-                            alt="Buscador de Watch Later Universal"
+                            src="/images/pulsewatch/landing-page.png"
+                            alt="Página principal de PulseWatch"
                         />
-                        <figcaption>Búsqueda de contenido</figcaption>
+                        <figcaption>Plataforma de monitoreo</figcaption>
                     </figure>
 
                     <figure>
                         <img
-                            src="/images/watch-later/authentication.png"
-                            alt="Pantalla de autenticación de Watch Later Universal"
+                            src="/images/pulsewatch/monitor-operational.png"
+                            alt="Monitor operativo de PulseWatch"
                             loading="lazy"
                         />
-                        <figcaption>Autenticación de usuarios</figcaption>
+                        <figcaption>Estado y métricas del monitor</figcaption>
                     </figure>
 
                     <figure>
                         <img
-                            src="/images/watch-later/details.png"
-                            alt="Ficha de la película Matrix"
+                            src="/images/pulsewatch/check-history.png"
+                            alt="Historial de comprobaciones de PulseWatch"
                             loading="lazy"
                         />
                         <figcaption>
-                            Detalles y plataformas disponibles
+                            Historial de disponibilidad y latencia
                         </figcaption>
                     </figure>
                 </div>
@@ -203,11 +223,12 @@ const security = [
             </section>
 
             <section class="project-section project-section--scalability">
-                <h2>Escalabilidad y eficiencia</h2>
+                <h2>Calidad, escalabilidad y rendimiento</h2>
 
                 <p class="project-section__introduction">
-                    Watch Later Universal está preparado para crecer sin
-                    requerir una reescritura completa:
+                    PulseWatch combina procesamiento asíncrono, comunicación en
+                    tiempo real y validación automatizada para mantener una
+                    arquitectura escalable y confiable:
                 </p>
 
                 <ul class="feature-list feature-list--detailed">
@@ -247,7 +268,7 @@ const security = [
 
                 <div
                     class="architecture-flow"
-                    aria-label="Arquitectura de Watch Later Universal"
+                    aria-label="Arquitectura de PulseWatch"
                 >
                     <span>Navegador</span>
                     <b aria-hidden="true">→</b>
@@ -259,10 +280,13 @@ const security = [
                 </div>
 
                 <div class="external-services">
-                    <span>TMDB: catálogo</span>
-                    <span>Brevo: correo</span>
-                    <span>Neon: base de datos</span>
-                    <span>Vercel: despliegue</span>
+                    <span>Redis: broker, caché y Pub/Sub</span>
+                    <span>Celery Worker: comprobaciones y notificaciones</span>
+                    <span>Celery Beat: programación de tareas</span>
+                    <span>WebSocket: actualizaciones en tiempo real</span>
+                    <span>Vercel: frontend</span>
+                    <span>Render: API y workers</span>
+                    <span>Neon: PostgreSQL</span>
                 </div>
             </section>
 
