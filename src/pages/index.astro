@@ -127,12 +127,16 @@ import MainNav from "../components/MainNav.astro";
 					target="_blank"
 					rel="noreferrer"
 				>
-					<span
+					<svg
 						class="contact__icon contact__icon--github"
+						viewBox="0 0 24 24"
+						fill="currentColor"
 						aria-hidden="true"
 					>
-						GH
-					</span>
+						<path
+							d="M12 .7a11.3 11.3 0 0 0-3.57 22c.57.1.77-.25.77-.55v-2.18c-3.15.68-3.81-1.34-3.81-1.34-.51-1.31-1.26-1.66-1.26-1.66-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.29.94.1-.73.4-1.23.72-1.51-2.51-.29-5.15-1.26-5.15-5.59 0-1.24.44-2.25 1.17-3.04-.12-.29-.51-1.44.11-3 0 0 .95-.3 3.11 1.16A10.8 10.8 0 0 1 12 6.08c.96 0 1.92.13 2.83.38 2.16-1.46 3.1-1.16 3.1-1.16.63 1.56.24 2.71.12 3 .73.79 1.17 1.8 1.17 3.04 0 4.34-2.65 5.3-5.17 5.58.41.35.77 1.04.77 2.1v3.13c0 .3.2.66.78.55A11.3 11.3 0 0 0 12 .7Z"
+						></path>
+					</svg>
 
 					<span class="contact__value">GitHub ↗</span>
 				</a>
@@ -170,6 +174,10 @@ import MainNav from "../components/MainNav.astro";
 							<li>Desarrollo de APIs REST</li>
 							<li>Modelado de bases de datos relacionales</li>
 							<li>Autenticación y gestión de sesiones</li>
+							<li>Pruebas end-to-end</li>
+							<li>Pruebas de carga y rendimiento</li>
+							<li>Integración y despliegue continuo</li>
+							<li>Medición de cobertura de código</li>
 						</ul>
 					</section>
 
@@ -185,6 +193,10 @@ import MainNav from "../components/MainNav.astro";
 							<li>Diseño UX/UI</li>
 							<li>Wireframes</li>
 							<li>Prototipado</li>
+							<li>Pruebas end-to-end</li>
+							<li>Pruebas de carga y rendimiento</li>
+							<li>Integración y despliegue continuo</li>
+							<li>Medición de cobertura de código</li>
 						</ul>
 					</section>
 
@@ -198,6 +210,18 @@ import MainNav from "../components/MainNav.astro";
 							<li>Estructuras de datos</li>
 							<li>Algoritmos</li>
 							<li>Resolución de problemas</li>
+						</ul>
+					</section>
+					<section class="knowledge-group">
+						<h3>Infraestructura y sistemas</h3>
+
+						<ul class="knowledge-list">
+							<li>Contenedores</li>
+							<li>Procesamiento en segundo plano</li>
+							<li>Colas de tareas</li>
+							<li>Caché distribuida</li>
+							<li>Monitoreo de servicios HTTP</li>
+							<li>Gestión automática de incidentes</li>
 						</ul>
 					</section>
 				</div>
@@ -214,6 +238,10 @@ import MainNav from "../components/MainNav.astro";
 							<li>Git</li>
 							<li>GitHub</li>
 							<li>Visual Studio Code</li>
+							<li>Redis</li>
+							<li>Celery</li>
+							<li>Docker</li>
+							<li>GitHub Actions</li>
 						</ul>
 					</section>
 
@@ -232,6 +260,26 @@ import MainNav from "../components/MainNav.astro";
 							<li>Pytest</li>
 							<li>Vitest</li>
 							<li>Testing Library</li>
+							<li>Playwright</li>
+							<li>k6</li>
+						</ul>
+					</section>
+					<section class="knowledge-group">
+						<h3>Infraestructura</h3>
+
+						<ul class="knowledge-list">
+							<li>Nginx</li>
+							<li>Vercel</li>
+							<li>Render</li>
+							<li>Neon</li>
+						</ul>
+					</section>
+					<section class="knowledge-group">
+						<h3>Calidad de código</h3>
+
+						<ul class="knowledge-list">
+							<li>Ruff</li>
+							<li>Oxlint</li>
 						</ul>
 					</section>
 				</div>
@@ -675,7 +723,10 @@ import MainNav from "../components/MainNav.astro";
 		}
 
 		.contact__icon--github {
-			font-size: 0.8rem;
+			width: 1.8rem;
+			height: 1.8rem;
+			margin-inline: auto;
+			color: var(--color-green);
 		}
 
 		.information-grid {
