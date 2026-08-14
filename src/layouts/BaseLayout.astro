@@ -1,5 +1,6 @@
 ﻿---
 import '../styles/global.css';
+import VercelAnalytics from "../components/VercelAnalytics.astro";
 
 interface Props {
 	title?: string;
@@ -22,6 +23,8 @@ const {
 		<meta name="theme-color" content="#202A34" />
 		<link rel="icon" href="/favicon.ico" sizes="any" />
 		<title>{title}</title>
+
+		<VercelAnalytics />
 	</head>
 	<body>
 		<slot />
