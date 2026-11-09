@@ -1,0 +1,141 @@
+---
+import ProjectDetail from "../../components/ProjectDetail.astro";
+
+const features = [
+	"Entrenamiento y evaluación de agentes PPO sobre LunarLander-v3.",
+	"Cinco perfiles de agentes: Precision, Speed, Efficiency, Stability y Balanced.",
+	"Reward shaping configurable para tiempo, progreso, combustible y estabilidad.",
+	"Escenarios con gravedad, plataforma, combustible y límite de pasos ajustables.",
+	"Reproducción visual de trayectorias y comparación antes y después de la adaptación.",
+	"Métricas de aterrizaje, recompensa, duración, precisión, consumo y estabilidad.",
+	"Cola persistente de trabajos de adaptación procesados por un worker local.",
+	"Seguimiento de experimentos en tiempo real mediante Server-Sent Events.",
+	"Demo pública de solo lectura con evaluaciones y trayectorias reales exportadas.",
+];
+
+const qualityPoints = [
+	{
+		title: "Evaluaciones reproducibles",
+		description:
+			"Los agentes se comparan con semillas fijas, política determinista y la recompensa original del entorno.",
+	},
+	{
+		title: "Métricas físicas",
+		description:
+			"El éxito exige ambas patas apoyadas, ausencia de choque, reposo y posición dentro de la plataforma.",
+	},
+	{
+		title: "Evidencia de reward hacking",
+		description:
+			"Los experimentos registran cuándo una recompensa alta favorece permanecer estable sin completar el aterrizaje.",
+	},
+	{
+		title: "Persistencia de experimentos",
+		description:
+			"SQLite conserva trabajos, eventos, configuraciones, progreso y resultados para recuperar cada ejecución.",
+	},
+	{
+		title: "Integridad de checkpoints",
+		description:
+			"Los resultados vinculan modelos y trayectorias mediante hashes SHA-256 y versiones de dependencias.",
+	},
+	{
+		title: "Pruebas automatizadas",
+		description:
+			"Pytest cubre recompensas, métricas de aterrizaje, escenarios, cola, recuperación y autorización de operaciones.",
+	},
+];
+
+const technologies = [
+	{
+		title: "Aprendizaje por refuerzo",
+		items: [
+			"Python 3.13",
+			"Gymnasium",
+			"Stable-Baselines3",
+			"PyTorch",
+			"PPO",
+			"Box2D",
+		],
+	},
+	{
+		title: "Aplicación y datos",
+		items: [
+			"FastAPI",
+			"Pydantic",
+			"SQLite",
+			"Server-Sent Events",
+			"React 19",
+			"TypeScript",
+		],
+	},
+	{
+		title: "Visualización y calidad",
+		items: [
+			"Vite",
+			"Recharts",
+			"Zod",
+			"Pytest",
+			"Oxlint",
+			"Vercel",
+		],
+	},
+];
+
+const closingItems = [
+	"Las operaciones de creación y cancelación requieren una credencial de operador.",
+	"La clave se configura mediante una variable de entorno y permanece fuera de Git.",
+	"Pydantic y Zod validan los datos en los límites del backend y el frontend.",
+	"SQLite utiliza modo WAL y conserva una sola ejecución activa en la cola.",
+	"Un bloqueo nativo de Windows impide ejecutar dos workers sobre el mismo almacenamiento.",
+	"La demo pública es de solo lectura; el entrenamiento y el worker se ejecutan localmente.",
+];
+---
+
+<ProjectDetail
+	pageTitle="Rocket RL Lab | Enrique Díaz Vera"
+	metaDescription="Laboratorio de aprendizaje por refuerzo para entrenar, evaluar y comparar agentes PPO en escenarios de aterrizaje."
+	label="Proyecto de aprendizaje por refuerzo"
+	titleLines={["Rocket", "RL Lab"]}
+	description="Laboratorio educativo para estudiar cómo el diseño de recompensas y los cambios de escenario afectan el aterrizaje de agentes PPO. Permite entrenar, evaluar, comparar y reproducir experimentos con métricas físicas verificables."
+	links={[
+		{
+			label: "Ver aplicación",
+			href: "https://rocket-rl-lab.vercel.app/",
+		},
+		{
+			label: "GitHub",
+			href: "https://github.com/enrique-diazv/rocket-rl-lab",
+		},
+	]}
+	stack={["Python", "PPO", "React", "FastAPI"]}
+	gallery={[
+		{
+			src: "/images/rocket-rl-lab/adaptation-replays.jpg",
+			alt: "Comparación de trayectorias de Rocket RL Lab antes y después de la adaptación",
+			caption: "Comparación de replays antes y después de la adaptación",
+		},
+		{
+			src: "/images/rocket-rl-lab/flight-schematic.svg",
+			alt: "Esquema de las capas de simulación y entrenamiento de Rocket RL Lab",
+			caption: "Simulación, entrenamiento y evaluación",
+		},
+	]}
+	{features}
+	qualityTitle="Experimentación y calidad"
+	qualityIntroduction="Rocket RL Lab separa el rendimiento observado de las conclusiones que realmente permite cada muestra, y conserva la evidencia necesaria para reproducir los experimentos:"
+	{qualityPoints}
+	{technologies}
+	architectureLabel="Arquitectura principal de Rocket RL Lab"
+	architecture={["React + Vite", "FastAPI", "Cola SQLite", "Worker", "Gymnasium + PPO"]}
+	services={[
+		"SSE: progreso en vivo",
+		"SQLite: experimentos",
+		"JSON: demo pública",
+		"PyTorch: modelos",
+		"Vercel: frontend",
+		"CPU: entrenamiento local",
+	]}
+	closingTitle="Seguridad y reproducibilidad"
+	closingItems={closingItems}
+/>

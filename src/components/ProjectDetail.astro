@@ -1,0 +1,658 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MainNav from "./MainNav.astro";
+
+interface ProjectLink {
+	label: string;
+	href: string;
+}
+
+interface GalleryImage {
+	src: string;
+	alt: string;
+	caption: string;
+}
+
+interface DetailedPoint {
+	title: string;
+	description: string;
+}
+
+interface TechnologyGroup {
+	title: string;
+	items: string[];
+}
+
+interface Props {
+	pageTitle: string;
+	metaDescription: string;
+	label: string;
+	titleLines: string[];
+	description: string;
+	links: ProjectLink[];
+	stack: string[];
+	gallery: GalleryImage[];
+	features: string[];
+	qualityTitle: string;
+	qualityIntroduction: string;
+	qualityPoints: DetailedPoint[];
+	technologies: TechnologyGroup[];
+	architectureLabel: string;
+	architecture: string[];
+	services: string[];
+	closingTitle: string;
+	closingItems: string[];
+}
+
+const {
+	pageTitle,
+	metaDescription,
+	label,
+	titleLines,
+	description,
+	links,
+	stack,
+	gallery,
+	features,
+	qualityTitle,
+	qualityIntroduction,
+	qualityPoints,
+	technologies,
+	architectureLabel,
+	architecture,
+	services,
+	closingTitle,
+	closingItems,
+} = Astro.props;
+---
+
+<BaseLayout title={pageTitle} description={metaDescription}>
+	<main class="project-page">
+		<MainNav active="projects" />
+
+		<article class="project">
+			<header class="project-hero">
+				<div class="project-hero__content">
+					<h1>
+						{titleLines.map((line) => <span>{line}</span>)}
+					</h1>
+
+					<p class="project-hero__label">{label}</p>
+
+					<p class="project-hero__description">{description}</p>
+
+					<p class="project-hero__author">
+						Diseñado y desarrollado completamente por Enrique Díaz Vera.
+					</p>
+
+					<div class="project-links">
+						{
+							links.map((link) => (
+								<a href={link.href} target="_blank" rel="noreferrer">
+									{link.label}
+								</a>
+							))
+						}
+					</div>
+
+					<ul class="project-stack" aria-label="Tecnologías principales">
+						{stack.map((technology) => <li>{technology}</li>)}
+					</ul>
+				</div>
+
+				<div class="project-gallery">
+					{
+						gallery.map((image, index) => (
+							<figure class:list={{ "project-gallery__primary": index === 0 }}>
+								<img
+									src={image.src}
+									alt={image.alt}
+									loading={index === 0 ? "eager" : "lazy"}
+								/>
+								<figcaption>{image.caption}</figcaption>
+							</figure>
+						))
+					}
+				</div>
+			</header>
+
+			<section class="project-section project-section--features">
+				<h2>Funciones</h2>
+				<ul class="feature-list">
+					{features.map((feature) => <li>{feature}</li>)}
+				</ul>
+			</section>
+
+			<section class="project-section project-section--quality">
+				<h2>{qualityTitle}</h2>
+				<p class="project-section__introduction">{qualityIntroduction}</p>
+				<ul class="feature-list feature-list--detailed">
+					{
+						qualityPoints.map((point) => (
+							<li>
+								<strong>{point.title}:</strong> {point.description}
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section class="project-section project-section--technologies">
+				<h2>Tecnologías</h2>
+				<div class="technology-grid">
+					{
+						technologies.map((group) => (
+							<section class="technology-group">
+								<h3>{group.title}</h3>
+								<ul>
+									{group.items.map((technology) => (
+										<li>{technology}</li>
+									))}
+								</ul>
+							</section>
+						))
+					}
+				</div>
+			</section>
+
+			<section class="project-section project-section--architecture">
+				<h2>Arquitectura</h2>
+				<div class="architecture-flow" aria-label={architectureLabel}>
+					{
+						architecture.map((node, index) => (
+							<>
+								<span>{node}</span>
+								{index < architecture.length - 1 && (
+									<b aria-hidden="true">→</b>
+								)}
+							</>
+						))
+					}
+				</div>
+				<div class="external-services">
+					{services.map((service) => <span>{service}</span>)}
+				</div>
+			</section>
+
+			<section class="project-section project-section--closing">
+				<h2>{closingTitle}</h2>
+				<ul class="feature-list">
+					{closingItems.map((entry) => <li>{entry}</li>)}
+				</ul>
+			</section>
+
+			<a class="back-link" href="/projects">← Volver a proyectos</a>
+		</article>
+	</main>
+</BaseLayout>
+
+<style>
+	.project-page {
+		width: 100%;
+		min-height: 100svh;
+		padding: 0.5rem clamp(1rem, 2.5vw, 2.5rem) clamp(1rem, 2.5vw, 2.5rem);
+		background: var(--color-dark);
+		color: var(--color-white);
+	}
+
+	.project {
+		width: min(100%, 96rem);
+		margin: clamp(2rem, 4vw, 3.5rem) auto 0;
+	}
+
+	.project-hero {
+		display: grid;
+		grid-template-columns: minmax(15rem, 0.7fr) minmax(0, 1.5fr);
+		align-items: start;
+		gap: clamp(2rem, 4vw, 4rem);
+	}
+
+	.project-hero__content,
+	.project-gallery,
+	.project-section,
+	.project-gallery figure,
+	.project-section > h2,
+	.project-section li {
+		animation: reveal 650ms ease-out both;
+	}
+
+	.project-gallery {
+		animation-delay: 100ms;
+	}
+
+	.project-section:nth-of-type(1) {
+		animation-delay: 150ms;
+	}
+
+	.project-section:nth-of-type(2) {
+		animation-delay: 200ms;
+	}
+
+	.project-section:nth-of-type(3) {
+		animation-delay: 250ms;
+	}
+
+	.project-section:nth-of-type(4) {
+		animation-delay: 300ms;
+	}
+
+	.project-section:nth-of-type(5) {
+		animation-delay: 350ms;
+	}
+
+	.project-hero__label {
+		width: fit-content;
+		margin: 1rem 0 0;
+		padding: 0.35rem 0.65rem;
+		border-radius: 999px;
+		background: var(--color-red);
+		color: var(--color-white);
+		font-size: 0.85rem;
+		line-height: 1.5;
+	}
+
+	.project-hero h1 {
+		margin: 0;
+		color: var(--color-orange);
+		font-size: clamp(2.5rem, 5vw, 5rem);
+		line-height: 0.98;
+	}
+
+	.project-hero h1 span {
+		display: block;
+	}
+
+	.project-hero__description {
+		margin: 1.5rem 0 0;
+		max-width: 60ch;
+		padding: 1rem;
+		border: 1px solid var(--color-green);
+		border-radius: 12px;
+		background: color-mix(in srgb, var(--color-dark) 88%, #000000);
+		color: var(--color-white);
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: clamp(1rem, 1.15vw, 1.1rem);
+		line-height: 1.6;
+	}
+
+	.project-hero__author {
+		margin: 1.25rem 0 0;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+		line-height: 1.7;
+	}
+
+	.project-links,
+	.project-stack,
+	.external-services,
+	.architecture-flow {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.project-links {
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+
+	.project-links a,
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.65rem 1rem;
+		border-radius: 999px;
+		background: var(--color-orange);
+		color: var(--color-dark);
+		font-size: 0.82rem;
+		text-decoration: none;
+		transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+	}
+
+	.project-links a::after {
+		content: " ↗";
+	}
+
+	.project-links a:hover,
+	.back-link:hover {
+		background: var(--color-green);
+		transform: translateY(-2px);
+	}
+
+	.project-stack {
+		gap: 0.6rem;
+		margin: 1.5rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.project-stack li {
+		padding: 0.5rem 0.8rem;
+		border: 1px solid var(--color-blue);
+		border-radius: 999px;
+		color: var(--color-white);
+		font-size: 0.82rem;
+	}
+
+	.project-gallery {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+		width: 100%;
+	}
+
+	.project-gallery figure {
+		position: relative;
+		margin: 0;
+		padding: 0.6rem;
+		border: 1px solid var(--color-green);
+		border-radius: 12px;
+		background: color-mix(in srgb, var(--color-dark) 88%, #000000);
+	}
+
+	.project-gallery__primary {
+		grid-column: 1 / -1;
+		padding-top: 2.25rem !important;
+	}
+
+	.project-gallery__primary::before {
+		content: "●  ●  ●";
+		position: absolute;
+		top: 0.6rem;
+		left: 0.85rem;
+		color: var(--color-red);
+		font-family: Arial, sans-serif;
+		font-size: 0.75rem;
+		letter-spacing: 0.15rem;
+	}
+
+	.project-gallery figure:last-child:nth-child(even) {
+		grid-column: 1 / -1;
+	}
+
+	.project-gallery img {
+		width: 100%;
+		height: auto;
+		max-height: 34rem;
+		border-radius: 8px;
+		object-fit: contain;
+	}
+
+	.project-gallery figcaption {
+		margin-top: 0.75rem;
+		color: var(--color-blue);
+		font-size: 0.82rem;
+		line-height: 1.4;
+		text-align: center;
+	}
+
+	.project-section {
+		margin-top: 2rem;
+		padding: clamp(1.25rem, 2.5vw, 2rem);
+		border: 1px solid color-mix(in srgb, var(--color-white) 16%, transparent);
+		border-radius: 14px;
+		background: color-mix(in srgb, var(--color-dark) 88%, #000000);
+	}
+
+	.project-section > h2 {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		width: 100%;
+		margin: 0 0 1.5rem;
+		color: var(--color-orange);
+		font-size: clamp(1.1rem, 1.7vw, 1.6rem);
+		font-weight: 500;
+		line-height: 1.35;
+	}
+
+	.project-section > h2::before {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex: 0 0 auto;
+		width: 3rem;
+		height: 3rem;
+		border: 1px solid var(--color-orange);
+		border-radius: 8px;
+		font-size: 0.85rem;
+		line-height: 1;
+	}
+
+	.project-section--features > h2::before {
+		content: ">_";
+	}
+
+	.project-section--quality > h2::before {
+		content: "|||";
+		letter-spacing: 0.1rem;
+	}
+
+	.project-section--technologies > h2::before {
+		content: "</>";
+	}
+
+	.project-section--architecture > h2::before {
+		content: "::";
+		font-size: 1rem;
+	}
+
+	.project-section--closing > h2::before {
+		content: "*";
+		font-size: 1.35rem;
+	}
+
+	.feature-list {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.85rem;
+		max-width: none;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.project-section--features .feature-list,
+	.project-section--closing .feature-list {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: clamp(2rem, 5vw, 5rem);
+	}
+
+	.feature-list li {
+		position: relative;
+		padding-left: 1.25rem;
+		color: var(--color-white);
+		font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+		line-height: 1.65;
+	}
+
+	.feature-list li::before {
+		content: "•";
+		position: absolute;
+		top: 0;
+		left: 0;
+		color: var(--color-orange);
+		font-weight: 700;
+	}
+
+	.project-section__introduction {
+		max-width: 70rem;
+		margin: 0 0 1.25rem;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: clamp(0.9rem, 1vw, 1rem);
+		line-height: 1.8;
+	}
+
+	.feature-list--detailed {
+		gap: 0.75rem;
+	}
+
+	.feature-list--detailed strong {
+		color: var(--color-orange);
+	}
+
+	.technology-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: clamp(1.5rem, 4vw, 4rem);
+	}
+
+	.technology-group {
+		min-width: 0;
+		padding: 0;
+	}
+
+	.technology-group h3 {
+		margin: 0 0 1rem;
+		color: var(--color-orange);
+		font-size: clamp(0.9rem, 1vw, 1rem);
+	}
+
+	.technology-group ul {
+		display: grid;
+		gap: 0.7rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.technology-group li {
+		position: relative;
+		padding-left: 1rem;
+		color: var(--color-white);
+		font-size: 0.85rem;
+		line-height: 1.5;
+	}
+
+	.technology-group li::before {
+		content: "•";
+		position: absolute;
+		left: 0;
+	}
+
+	.architecture-flow {
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	.architecture-flow span,
+	.external-services span {
+		padding: 0.75rem 1.25rem;
+		border-radius: 999px;
+		background: var(--color-green);
+		color: var(--color-dark);
+		font-size: 0.82rem;
+		text-align: center;
+	}
+
+	.architecture-flow b {
+		color: var(--color-orange);
+		font-size: 1.5rem;
+	}
+
+	.external-services {
+		justify-content: center;
+		gap: 0.75rem;
+		margin-top: 2rem;
+	}
+
+	.external-services span {
+		padding: 0.65rem 1rem;
+		background: var(--color-blue);
+	}
+
+	.back-link {
+		width: fit-content;
+		margin: 2rem auto 1rem;
+		border: 1px solid var(--color-orange);
+		background: transparent;
+		color: var(--color-orange);
+	}
+
+	@keyframes reveal {
+		from {
+			opacity: 0;
+			transform: translateY(1.25rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	@media (max-width: 70rem) {
+		.project-hero {
+			grid-template-columns: 1fr;
+		}
+
+		.technology-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 55rem) {
+		.project-section--features .feature-list,
+		.project-section--closing .feature-list {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 45rem) {
+		.project-page {
+			padding-inline: 1rem;
+		}
+
+		.project-gallery {
+			grid-template-columns: 1fr;
+		}
+
+		.technology-grid {
+			grid-template-columns: 1fr;
+			gap: 1.75rem;
+		}
+
+		.project-gallery__primary,
+		.project-gallery figure:last-child:nth-child(even) {
+			grid-column: auto;
+		}
+
+		.project-section {
+			padding: 1rem;
+		}
+
+		.project-section > h2 {
+			gap: 0.75rem;
+			font-size: 0.95rem;
+		}
+
+		.project-section > h2::before {
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+
+		.architecture-flow {
+			flex-direction: column;
+		}
+
+		.architecture-flow b {
+			transform: rotate(90deg);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.project-hero__content,
+		.project-gallery,
+		.project-section,
+		.project-gallery figure,
+		.project-section > h2,
+		.project-section li {
+			animation: none;
+		}
+
+		.project-links a,
+		.back-link {
+			transition: none;
+		}
+	}
+</style>

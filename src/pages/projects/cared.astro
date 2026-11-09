@@ -1,0 +1,126 @@
+---
+import ProjectDetail from "../../components/ProjectDetail.astro";
+
+const features = [
+	"Alta guiada de negocios con datos, categorías, ubicación, horarios, servicios y personal.",
+	"Flujo de reserva con selección de servicio, personal, fecha, horario y confirmación.",
+	"Cálculo de disponibilidad en intervalos de quince minutos según duración, horarios y citas ocupadas.",
+	"Validación de teléfono, campos obligatorios, precios, duración, horarios y asignaciones de personal.",
+	"Edición y eliminación de servicios y personal mediante acciones contextuales y gestos táctiles.",
+	"Estados de carga, error, vacío y éxito durante los recorridos principales.",
+	"Galería ampliable y panel modal de reserva con navegación accesible.",
+	"Diseño responsive con prioridad para dispositivos móviles.",
+];
+
+const qualityPoints = [
+	{
+		title: "Separación por responsabilidades",
+		description:
+			"Las rutas componen las pantallas, los componentes agrupan cada flujo, lib concentra reglas reutilizables y los tipos definen sus contratos.",
+	},
+	{
+		title: "Componentes de servidor y cliente",
+		description:
+			"Las vistas estáticas se renderizan en servidor y las interacciones utilizan componentes de cliente solo cuando necesitan estado o APIs del navegador.",
+	},
+	{
+		title: "Disponibilidad verificable",
+		description:
+			"Los horarios consideran la duración completa del servicio y se vuelven a comprobar antes de confirmar una reserva.",
+	},
+	{
+		title: "Datos tipados",
+		description:
+			"Los modelos de negocio y reserva mantienen consistencia entre mocks, formularios y reglas de disponibilidad.",
+	},
+	{
+		title: "Alcance controlado",
+		description:
+			"La demo utiliza datos locales y evita agregar backend, autenticación o pagos que no formaban parte del reto técnico.",
+	},
+	{
+		title: "Comprobaciones de entrega",
+		description:
+			"ESLint, el compilador de TypeScript y el build de producción validan el código antes de su entrega.",
+	},
+];
+
+const technologies = [
+	{
+		title: "Frontend",
+		items: ["Next.js 16", "React 19", "TypeScript", "App Router"],
+	},
+	{
+		title: "Interfaz y datos",
+		items: [
+			"CSS Modules",
+			"Radix UI Select",
+			"Server Components",
+			"Client Components",
+			"Mocks tipados",
+		],
+	},
+	{
+		title: "Calidad",
+		items: ["ESLint", "TypeScript Compiler", "Next.js Build", "Diseño mobile-first"],
+	},
+];
+
+const closingItems = [
+	"La demo no almacena datos después de recargar la página.",
+	"Las reservas confirmadas viven únicamente en la memoria del navegador.",
+	"No incluye autenticación, pagos ni servicios externos.",
+	"La validación de disponibilidad representa la lógica de una futura capa de servidor.",
+	"Los dos recorridos pueden explorarse sin cuentas ni variables de entorno.",
+	"Una versión de producto requeriría persistencia y control concurrente de reservas.",
+];
+---
+
+<ProjectDetail
+	pageTitle="Cared | Enrique Díaz Vera"
+	metaDescription="Demo frontend de alta de negocios y reserva de citas desarrollada con Next.js, React y TypeScript."
+	label="Reto técnico frontend"
+	titleLines={["Cared"]}
+	description="Demo responsive que resuelve dos recorridos completos: el alta de un negocio y el agendamiento de una cita. Incluye formularios por etapas, validaciones, cálculo de disponibilidad y estados de interfaz con datos simulados."
+	links={[
+		{
+			label: "GitHub",
+			href: "https://github.com/enrique-diazv/cared",
+		},
+	]}
+	stack={["Next.js", "React", "TypeScript", "CSS Modules"]}
+	gallery={[
+		{
+			src: "/images/cared/explore.png",
+			alt: "Portada móvil de Cared con accesos a los recorridos de reserva y alta de negocio",
+			caption: "Inicio de los recorridos principales",
+		},
+		{
+			src: "/images/cared/schedule.jpg",
+			alt: "Selector de fechas disponibles durante una reserva en Cared",
+			caption: "Selección de fecha para una reserva",
+		},
+		{
+			src: "/images/cared/appointment.png",
+			alt: "Primer paso del formulario para dar de alta un negocio en Cared",
+			caption: "Alta guiada de un negocio",
+		},
+	]}
+	{features}
+	qualityTitle="Diseño y calidad"
+	qualityIntroduction="Cared prioriza recorridos claros, reglas de negocio aisladas y una implementación proporcional al alcance de una demo técnica:"
+	{qualityPoints}
+	{technologies}
+	architectureLabel="Arquitectura principal de Cared"
+	architecture={["App Router", "Rutas", "Componentes", "Reglas de negocio", "Mocks tipados"]}
+	services={[
+		"Flujo de alta",
+		"Flujo de reserva",
+		"Disponibilidad",
+		"Validación",
+		"Estado local",
+		"CSS Modules",
+	]}
+	closingTitle="Alcance de la demo"
+	closingItems={closingItems}
+/>
